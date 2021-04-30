@@ -22,6 +22,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
     "clean": "rm -rf dist && rm -rf types",
@@ -45,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "1ec914763d87217910ab6a3fd9364b8b5bbca35c"
+  "gitHead": "cf55e881a5e838ebf4eefab1e0a6cc4308583643"
 }

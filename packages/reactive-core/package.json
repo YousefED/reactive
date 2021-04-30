@@ -16,6 +16,9 @@
     "clean": "rm -rf dist && rm -rf types",
     "build": "npm run clean && microbundle build --raw --no-compress"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -34,5 +37,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "1ec914763d87217910ab6a3fd9364b8b5bbca35c"
+  "gitHead": "cf55e881a5e838ebf4eefab1e0a6cc4308583643"
 }
