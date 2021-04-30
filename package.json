@@ -8,7 +8,8 @@
     "test": "jest --coverage=true --config=jest.config.js",
     "list": "ls -als packages/reactive-react/node_modules && ls -als packages/reactive-react/node_modules/@reactivedata",
     "build": "lerna run build",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build",
+    "deploy": "lerna publish"
   },
   "devDependencies": {
     "lerna": "^4.0.0",
