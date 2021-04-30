@@ -13,7 +13,8 @@
   },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
-    "build": "microbundle build --raw --no-compress"
+    "clean": "rm -rf dist && rm -rf types",
+    "build": "npm run clean && microbundle build --raw --no-compress"
   },
   "eslintConfig": {
     "extends": [
@@ -33,5 +34,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "636a08014cfc0d423557c667468655b169023cb5"
+  "gitHead": "bfc4d944219da3de3a4a230304e87c89292e7997"
 }
