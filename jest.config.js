@@ -4,6 +4,6 @@ module.exports = {
   roots: ["<rootDir>"],
   modulePaths: ["<rootDir>"],
   moduleNameMapper: {
-    reactive: "<rootDir>/packages/reactive-core/src",
+    reactive: "<rootDir>/packages/reactive-core",
   },
 };
