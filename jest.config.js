@@ -1,5 +1,5 @@
 module.exports = {
-  preset: "ts-jest",
+  preset: "tsd-jest",
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "@reactivedata/reactive": "<rootDir>/packages/resactive-core/src",
