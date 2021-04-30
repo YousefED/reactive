@@ -18,5 +18,6 @@
     "experimentalDecorators": true,
     "outDir": "types",
     "declaration": true
-  }
+  },
+  "exclude": ["**/*.test.tsx"]
 }
