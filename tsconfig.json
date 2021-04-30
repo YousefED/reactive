@@ -17,6 +17,9 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "outDir": "types",
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@reactivedata/reactive": ["packages/reactive-core/src"]
+    }
   }
 }
