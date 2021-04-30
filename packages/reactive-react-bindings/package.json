@@ -1,6 +1,6 @@
 {
   "name": "reactive-react-bindings",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.5-alpha.0",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
   "module": "dist/reactive-react-bindings.module.js",
@@ -20,7 +20,7 @@
     "microbundle": "^0.13.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "reactive": "^0.0.4-alpha.0"
+    "reactive": "^0.0.5-alpha.0"
   },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",

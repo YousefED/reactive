@@ -1,6 +1,6 @@
 {
   "name": "reactive",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.5-alpha.0",
   "private": false,
   "main": "dist/reactive.js",
   "module": "dist/reactive.module.js",
