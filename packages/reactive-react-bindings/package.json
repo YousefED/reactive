@@ -13,7 +13,8 @@
     "reactive": "^0.1.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/dom": "^7.30.4",
+    "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.1.0",
     "@types/react": "^17.0.2",
     "microbundle": "^0.13.0",
@@ -44,5 +45,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "bfc4d944219da3de3a4a230304e87c89292e7997"
+  "gitHead": "3af24d569851381d2572dea8441bc6bd0373a5c5"
 }
