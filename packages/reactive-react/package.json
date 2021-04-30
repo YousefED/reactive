@@ -8,12 +8,13 @@
   "source": "src/index.ts",
   "types": "types/index.d.ts",
   "license": "MIT",
+  "dependencies": {
+    "@reactivedata/reactive": "^0.0.7-alpha.0"
+  },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17",
-    "reactive": "^0.1.0"
+    "react": "^16.8.0 || ^17"
   },
   "devDependencies": {
-    "@reactivedata/reactive": "^0.0.7-alpha.0",
     "@testing-library/dom": "^7.30.4",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.1.0",
@@ -24,11 +25,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^@reactivedata/reactive$": "<rootDir>/packages/reactive-core/src"
-    }
   },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
