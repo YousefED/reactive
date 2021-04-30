@@ -25,6 +25,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^@reactivedata/reactive$": "<rootDir>/packages/reactive-core/src"
+    }
+  },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
     "clean": "rm -rf dist && rm -rf types",
