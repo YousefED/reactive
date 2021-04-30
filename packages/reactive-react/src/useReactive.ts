@@ -1,5 +1,5 @@
 import { useMemo, useReducer } from "react";
-import { reactive } from "reactive";
+import { reactive } from "@reactivedata/reactive";
 
 export function useReactive<T>(stateObject: T): T {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);

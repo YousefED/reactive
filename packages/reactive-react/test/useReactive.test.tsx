@@ -2,7 +2,8 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { useRef } from "react";
-import { untrackedCB } from "reactive";
+// @ts-ignore
+import { untrackedCB } from "@reactivedata/reactive";
 import { useReactive } from "../src/useReactive";
 
 function TestApp() {
