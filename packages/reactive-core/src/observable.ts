@@ -5,7 +5,10 @@ export const $reactive = Symbol("$reactive");
 export const $reactiveproxy = Symbol("$reactiveproxy");
 
 type Admin<T> = {
-  connections: Set<ObserverConnection<T>>;
+  connections: {
+    iterate: Set<ObserverConnection<T>>;
+    byKey: Map<string | number, Set<ObserverConnection<T>>>;
+  };
   proxy: InternalObservable<T>;
   proxiesWithImplicitObserver: Map<Observer, InternalObservable<T>>;
   raw: T;
@@ -92,7 +95,10 @@ function _observable<T>(object: T) {
     throw new Error("unexpected");
   }
   const value: Admin<T> = {
-    connections: new Set(),
+    connections: {
+      iterate: new Set<ObserverConnection<T>>(),
+      byKey: new Map<string | number, Set<ObserverConnection<T>>>(),
+    },
     proxy: {} as any, // temp
     raw: object,
     proxiesWithImplicitObserver: new Map(),

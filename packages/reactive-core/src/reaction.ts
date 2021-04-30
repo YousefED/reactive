@@ -1,10 +1,10 @@
-import { $reactive, ObserverConnectionSource } from "./observable";
+import { $reactive, ObserverConnection, ObserverConnectionSource } from "./observable";
 import { Observer } from "./observer";
 
 let runningReactions: Reaction[] = [];
 
 export class Reaction implements Observer {
-  public observing = new Set<ObserverConnectionSource<{}>>();
+  public observing = new Set<ObserverConnection<object>>();
   constructor(private func: () => void | Promise<void>, private options: { name: string }) {}
 
   private reaction = () => {
@@ -23,13 +23,12 @@ export class Reaction implements Observer {
       throw new Error("already running reaction");
     }
     this.observing.forEach((val) => {
-      const connections = val.observable[$reactive].connections;
-      // TODO: optimize loop
-      connections.forEach((val) => {
-        if (val.observer === this) {
-          connections.delete(val);
-        }
-      });
+      const connections = val.source.observable[$reactive].connections;
+      if (val.source.type === "iterate") {
+        connections.iterate.delete(val);
+      } else {
+        connections.byKey.get(val.source.key).delete(val);
+      }
     });
     this.observing.clear();
     this.reaction();
