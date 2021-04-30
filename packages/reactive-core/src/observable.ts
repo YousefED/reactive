@@ -161,7 +161,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     // otherwise return the observable wrapper if it is already created and cached or the raw object
     return result;
   },
-  ownKeys(target: InternalObservable<any>): PropertyKey[] {
+  ownKeys(target: InternalObservable<any>) {
     reportObserved({ observable: target, type: "iterate" }, this.implicitObserver);
     return Reflect.ownKeys(target);
   },
