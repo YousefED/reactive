@@ -18,6 +18,5 @@
     "experimentalDecorators": true,
     "outDir": "types",
     "declaration": true
-  },
-  "include": ["packages/reactive-core/src"]
+  }
 }
