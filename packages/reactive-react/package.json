@@ -1,6 +1,6 @@
 {
   "name": "@reactivedata/react",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.7-alpha.0",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
   "module": "dist/reactive-react-bindings.module.js",
@@ -13,7 +13,7 @@
     "reactive": "^0.1.0"
   },
   "devDependencies": {
-    "@reactivedata/reactive": "^0.0.6-alpha.0",
+    "@reactivedata/reactive": "^0.0.7-alpha.0",
     "@testing-library/dom": "^7.30.4",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.1.0",
