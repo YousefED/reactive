@@ -1,5 +1,5 @@
 {
-  "name": "reactive-react-bindings",
+  "name": "@reactivedata/react",
   "version": "0.0.5-alpha.0",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
@@ -20,7 +20,7 @@
     "microbundle": "^0.13.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "reactive": "^0.0.5-alpha.0"
+    "@reactivedata/reactive": "^0.0.5-alpha.0"
   },
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
@@ -45,5 +45,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "3af24d569851381d2572dea8441bc6bd0373a5c5"
+  "gitHead": "1ec914763d87217910ab6a3fd9364b8b5bbca35c"
 }

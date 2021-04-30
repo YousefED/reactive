@@ -1,5 +1,5 @@
 {
-  "name": "reactive",
+  "name": "@reactivedata/reactive",
   "version": "0.0.5-alpha.0",
   "private": false,
   "main": "dist/reactive.js",
@@ -34,5 +34,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "3af24d569851381d2572dea8441bc6bd0373a5c5"
+  "gitHead": "1ec914763d87217910ab6a3fd9364b8b5bbca35c"
 }
