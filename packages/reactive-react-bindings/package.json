@@ -1,0 +1,38 @@
+{
+  "name": "reactive-react",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {},
+  "peerDependencies": {
+    "reactive": "^0.1.0",
+    "react": "^16.8.0 || ^17"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@types/react": "^17.0.2",
+    "reactive": "^0.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "scripts": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
