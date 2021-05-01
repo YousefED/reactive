@@ -25,9 +25,9 @@ export class Reaction implements Observer {
     this.observing.forEach((val) => {
       const connections = val.source.observable[$reactive].connections;
       if (val.source.type === "iterate") {
-        connections.iterate.delete(val);
+        connections.iterate.delete(this);
       } else {
-        connections.byKey.get(val.source.key).delete(val);
+        connections.byKey.get(val.source.key).delete(this);
       }
     });
     this.observing.clear();
