@@ -62,9 +62,8 @@ export function reportObserved<T extends object>(source: ObserverConnectionSourc
 
   const reaction = runningReaction();
   if (reaction) {
-    if (!reaction.registerConnection(source)) {
-      addConnection(source, reaction);
-    }
+    reaction.observing.add({ source, observer: reaction });
+    addConnection(source, reaction);
   }
 
   if (implicitObserver) {
