@@ -70,6 +70,8 @@ There are 2 players, the first player name is Paul
 There are 2 players, the first player name is John
 ```
 
+<sup>View on [CodeSandbox](https://codesandbox.io/s/reactivedatareactive-basic-example-b3fs3)</sup>
+
 ## API
 
 - `reactive`
