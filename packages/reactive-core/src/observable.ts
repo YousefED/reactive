@@ -6,14 +6,14 @@ export const $reactiveproxy = Symbol("$reactiveproxy");
 
 type Admin<T> = {
   connections: {
-    iterate: Set<ObserverConnection<T>>;
-    byKey: Map<string | number, Set<ObserverConnection<T>>>;
+    iterate: Set<Observer>;
+    byKey: Map<string | number, Set<Observer>>;
   };
   proxy: InternalObservable<T>;
   proxiesWithImplicitObserver: Map<Observer, InternalObservable<T>>;
   raw: T;
 };
-type InternalObservable<T> = {
+export type InternalObservable<T> = {
   [$reactive]: Admin<T>;
 } & T;
 
@@ -96,8 +96,8 @@ function _observable<T>(object: T) {
   }
   const value: Admin<T> = {
     connections: {
-      iterate: new Set<ObserverConnection<T>>(),
-      byKey: new Map<string | number, Set<ObserverConnection<T>>>(),
+      iterate: new Set<Observer>(),
+      byKey: new Map<string | number, Set<Observer>>(),
     },
     proxy: {} as any, // temp
     raw: object,

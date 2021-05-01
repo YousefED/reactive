@@ -21,11 +21,11 @@ function reportChangedArray<T>(operations: Array<Operation<T>>) {
   operations.forEach((operation) => {
     if (operation.type === "add" || operation.type === "delete") {
       operation.observable[$reactive].connections.iterate.forEach((connection) => {
-        toRun.add(connection.observer);
+        toRun.add(connection);
       });
     }
     operation.observable[$reactive].connections.byKey.get(operation.key)?.forEach((connection) => {
-      toRun.add(connection.observer);
+      toRun.add(connection);
     });
   });
 
@@ -42,17 +42,16 @@ export function reportChanged<T>(operation: Operation<T>) {
   reportChangedArray([operation]);
 }
 
-function addConnection<T>(connection: ObserverConnection<T>) {
-  const source = connection.source;
+function addConnection<T>(source: ObserverConnectionSource<T>, observer: Observer) {
   if (source.type === "iterate") {
-    source.observable[$reactive].connections.iterate.add(connection);
+    source.observable[$reactive].connections.iterate.add(observer);
   } else {
     let set = source.observable[$reactive].connections.byKey.get(source.key);
     if (!set) {
-      set = new Set<ObserverConnection<T>>();
+      set = new Set<Observer>();
       source.observable[$reactive].connections.byKey.set(source.key, set);
     }
-    set.add(connection);
+    set.add(observer);
   }
 }
 
@@ -63,13 +62,13 @@ export function reportObserved<T extends object>(source: ObserverConnectionSourc
 
   const reaction = runningReaction();
   if (reaction) {
-    const connection = { source, observer: reaction };
-    addConnection(connection);
-    reaction.observing.add(connection);
+    if (!reaction.registerConnection(source)) {
+      addConnection(source, reaction);
+    }
   }
 
   if (implicitObserver) {
-    addConnection({ source, observer: implicitObserver });
+    addConnection(source, implicitObserver);
     // implicitObserver.observing.add(source);
   }
 }
