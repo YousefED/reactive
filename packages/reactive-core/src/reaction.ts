@@ -1,5 +1,4 @@
-import { moduleNameMapper } from "jest.config";
-import { $reactive, InternalObservable, ObserverConnection, ObserverConnectionSource } from "./observable";
+import { $reactive, InternalObservable, ObserverConnectionSource } from "./observable";
 import { Observer } from "./observer";
 
 let runningReactions: Reaction[] = [];
