@@ -6,18 +6,20 @@ A super simple, yet powerful and performant library for State Management / React
 
 ## Using React
 
-```
+```typescript
 import { useReactive } from "@reactivedata/react";
 
 export default function App() {
   const state = useReactive({
-    clickCount: 0
+    clickCount: 0,
   });
 
   return (
     <div>
-        <p>The button has been clicked <strong>{state.clickCount} times!</strong></p>
-        <button onClick={() => state.clickCount++} />
+      <p>
+        The button has been clicked <strong>{state.clickCount} times!</strong>
+      </p>
+      <button onClick={() => state.clickCount++} />
     </div>
   );
 }
@@ -29,12 +31,10 @@ Pass in any object to `useReactive` to create a Reactive state. Any properties (
 
 ### Advanced example
 
-```
+```typescript
 const state = useReactive({
-    players: [
-        { name: "Peter"}
-    ]
-})
+  players: [{ name: "Peter" }],
+});
 ```
 
 Adding players (`state.players.push`) or modifying a name (`state.players[0].name = "John"`) will all work out-of-the-box.
@@ -45,17 +45,15 @@ Reactive is perfectly usable without React, and actually has 0 external dependen
 
 ### Simple example
 
-```
+```typescript
 import { reactive, autorun } from "@reactivedata/reactive";
 
 const data = reactive({
-    players: [
-        { name: "Peter"}
-    ]
+  players: [{ name: "Peter" }],
 });
 
 autorun(() => {
-    console.log(`There are ${data.length} players, the first player name is ${data.players[0].name}`);
+  console.log(`There are ${data.length} players, the first player name is ${data.players[0].name}`);
 });
 
 data.players.push({ name: "Paul" });
