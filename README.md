@@ -4,7 +4,7 @@
 
 A super simple, yet powerful and performant library for State Management / Reactive Programming.
 
-## Example with React
+## Using React
 
 ```
 import { useReactive } from "@reactivedata/react";
@@ -21,7 +21,6 @@ export default function App() {
     </div>
   );
 }
-
 ```
 
 <sup>View on [CodeSandbox](https://codesandbox.io/s/reactivedatareact-basic-example-ihgu9?file=/src/App.tsx)</sup>
@@ -40,6 +39,49 @@ const state = useReactive({
 
 Adding players (`state.players.push`) or modifying a name (`state.players[0].name = "John"`) will all work out-of-the-box.
 
-### Credits
+## Without React
+
+Reactive is perfectly usable without React, and actually has 0 external dependencies.
+
+### Simple example
+
+```
+import { reactive, autorun } from "@reactivedata/reactive";
+
+const data = reactive({
+    players: [
+        { name: "Peter"}
+    ]
+});
+
+autorun(() => {
+    console.log(`There are ${data.length} players, the first player name is ${data.players[0].name}`);
+});
+
+data.players.push({ name: "Paul" });
+data.players[0].name = "John";
+```
+
+Will print:
+
+```
+There are 1 players, the first player name is Paul
+There are 2 players, the first player name is Paul
+There are 2 players, the first player name is John
+```
+
+## API
+
+- `reactive`
+- `autorun`
+- `autorunAsync`
+- `untracked`
+- `runInAction`
+
+(to be documented)
+
+<sup>The API surface is inspired by MobX, but with support for `autorunAsync` and an easier React interface.</sup>
+
+### Credits ❤️
 
 Reactive builds on Reactive Programming concepts. In particular, it's inspired by and builds upon the amazing work by [MobX](https://mobx.js.org/) and [NX Observe](https://github.com/nx-js/observer-util).
