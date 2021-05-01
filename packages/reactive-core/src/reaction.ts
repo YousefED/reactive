@@ -1,4 +1,4 @@
-import { $reactive, ObserverConnection, ObserverConnectionSource } from "./observable";
+import { $reactive, ObserverConnection } from "./observable";
 import { Observer } from "./observer";
 
 let runningReactions: Reaction[] = [];
