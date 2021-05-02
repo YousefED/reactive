@@ -14,3 +14,18 @@ export function useReactive<T>(stateObject: T): T {
 
   return ret;
 }
+
+export function useReactives<T extends any[]>(...stateObjects: T): T {
+  const [, forceUpdate] = useReducer((c) => c + 1, 0);
+  const trigger = {
+    trigger: () => {
+      forceUpdate();
+    },
+  };
+
+  return useMemo(() => {
+    return stateObjects.map((stateObject) => {
+      return reactive(stateObject, trigger);
+    });
+  }, []) as T;
+}
