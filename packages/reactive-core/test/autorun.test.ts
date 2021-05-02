@@ -1,5 +1,6 @@
 import { autorun, autorunAsync } from "../src/autorun";
 import { reactive } from "../src/observable";
+import { Observer } from "../src/observer";
 
 // TODO: make sure in all cases we spy and check toHaveBeenCalledTimes.
 describe("autorun", () => {
@@ -648,7 +649,7 @@ describe("options", () => {
   describe("implicitReaction", () => {
     it("should run implicitReaction", () => {
       const fnSpy = jest.fn(() => {});
-      const reaction = { trigger: fnSpy };
+      const reaction = new Observer(fnSpy);
 
       const observed = reactive(
         {
@@ -673,7 +674,7 @@ describe("options", () => {
 
     it("should work for has", () => {
       const fnSpy = jest.fn(() => {});
-      const reaction = { trigger: fnSpy };
+      const reaction = new Observer(fnSpy);
 
       const observed = reactive({}, reaction);
       let access = "bla" in observed;
@@ -683,7 +684,7 @@ describe("options", () => {
 
     it("nested implicits", () => {
       const fnSpy1 = jest.fn(() => {});
-      const reaction1 = { trigger: fnSpy1 };
+      const reaction1 = new Observer(fnSpy1);
 
       const observed = reactive(
         {
@@ -696,7 +697,7 @@ describe("options", () => {
       );
 
       const fnSpy2 = jest.fn(() => {});
-      const reaction2 = { trigger: fnSpy2 };
+      const reaction2 = new Observer(fnSpy2);
 
       const observed2 = reactive(observed, reaction2);
       let access = observed.outer.nested;

@@ -1,4 +1,5 @@
-import { reportChanged, Observer, reportObserved } from "./observer";
+import { reportObserved, reportChanged } from "./reporting";
+import { Observer } from "./observer";
 import { hasRunningReaction } from "./reaction";
 
 export const $reactive = Symbol("$reactive");
