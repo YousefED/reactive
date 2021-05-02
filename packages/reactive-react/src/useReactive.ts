@@ -10,7 +10,7 @@ export function useReactive<T>(stateObject: T): T {
         forceUpdate();
       },
     });
-  }, []);
+  }, [stateObject]);
 
   return ret;
 }
@@ -27,5 +27,5 @@ export function useReactives<T extends any[]>(...stateObjects: T): T {
     return stateObjects.map((stateObject) => {
       return reactive(stateObject, trigger);
     });
-  }, []) as T;
+  }, stateObjects) as T;
 }
