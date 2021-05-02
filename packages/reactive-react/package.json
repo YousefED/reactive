@@ -6,7 +6,7 @@
   "module": "dist/reactive-react-bindings.module.js",
   "umd:main": "dist/reactive-react-bindings.umd.js",
   "source": "src/index.ts",
-  "types": "types/reactive-react/src/index.d.ts",
+  "types": "types/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "@reactivedata/reactive": "^0.1.0"
@@ -29,7 +29,8 @@
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
     "clean": "rm -rf dist && rm -rf types",
-    "build": "npm run clean && microbundle build --raw --no-compress"
+    "build": "npm run clean && microbundle build --raw --no-compress && npm run fixtypedir",
+    "fixtypedir": "mv types typestmp && mv typestmp/reactive-react/src types && rm -rf typestmp"
   },
   "eslintConfig": {
     "extends": [
