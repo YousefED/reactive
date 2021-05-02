@@ -1,7 +1,7 @@
 import { useMemo, useReducer } from "react";
 import { reactive } from "@reactivedata/reactive";
 
-export function useReactive<T>(stateObject: T): T {
+export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
 
   const ret = useMemo(() => {
@@ -10,12 +10,12 @@ export function useReactive<T>(stateObject: T): T {
         forceUpdate();
       },
     });
-  }, [stateObject]);
+  }, deps || []);
 
   return ret;
 }
 
-export function useReactives<T extends any[]>(...stateObjects: T): T {
+export function useReactives<T extends any[]>(stateObjects: T, deps?: React.DependencyList): T {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
   const trigger = {
     trigger: () => {
@@ -27,5 +27,5 @@ export function useReactives<T extends any[]>(...stateObjects: T): T {
     return stateObjects.map((stateObject) => {
       return reactive(stateObject, trigger);
     });
-  }, stateObjects) as T;
+  }, deps || []) as T;
 }
