@@ -6,7 +6,7 @@
   "module": "dist/reactive-react-bindings.module.js",
   "umd:main": "dist/reactive-react-bindings.umd.js",
   "source": "src/index.ts",
-  "types": "types/index.d.ts",
+  "types": "types/reactive-react/src/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "@reactivedata/reactive": "^0.1.0"
