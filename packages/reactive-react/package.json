@@ -1,6 +1,6 @@
 {
   "name": "@reactivedata/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
   "module": "dist/reactive-react-bindings.module.js",
