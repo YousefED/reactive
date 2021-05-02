@@ -18,9 +18,6 @@
     "experimentalDecorators": true,
     "outDir": "types",
     "declaration": true,
-    "baseUrl": ".",
-    "paths": {
-      "@reactivedata/reactive": ["packages/reactive-core/src"]
-    }
+    "baseUrl": "."
   }
 }
