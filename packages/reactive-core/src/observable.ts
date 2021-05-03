@@ -60,12 +60,12 @@ export type Operation<T> = {
   | { type: "delete"; oldValue: any }
 );
 
-function observable<T>(object: T, implicitObserver?: Observer) {
+function observable<T>(object: T, implicitObserver?: Observer, shallow = false) {
   if (isReactive(object, implicitObserver)) {
     return object;
   }
 
-  const observable = _observable(object);
+  const observable = _observable(object, shallow);
 
   if (!implicitObserver) {
     return observable;
