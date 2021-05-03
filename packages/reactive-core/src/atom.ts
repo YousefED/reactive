@@ -1,4 +1,4 @@
-import { Observer } from "../dist/reactive.modern";
+import { Observer } from "./observer";
 import { reactive } from "./observable";
 
 // Hacky, it's not really an Atom in the sense that it is not the building block of observables
