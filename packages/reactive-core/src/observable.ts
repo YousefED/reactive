@@ -13,6 +13,7 @@ type Admin<T> = {
   proxy: InternalObservable<T>;
   proxiesWithImplicitObserver: Map<Observer, InternalObservable<T>>;
   raw: T;
+  shallow: boolean;
 };
 export type InternalObservable<T> = {
   [$reactive]: Admin<T>;
@@ -83,7 +84,7 @@ function observable<T>(object: T, implicitObserver?: Observer) {
   return proxy;
 }
 export const reactive = observable;
-function _observable<T>(object: T) {
+function _observable<T>(object: T, shallow = false) {
   if (isReactive(object)) {
     return object;
   }
@@ -103,6 +104,7 @@ function _observable<T>(object: T) {
     proxy: {} as any, // temp
     raw: object,
     proxiesWithImplicitObserver: new Map(),
+    shallow,
   };
   Object.defineProperty(object, $reactive, {
     enumerable: false,
@@ -150,6 +152,10 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     if (isInternalObservable(result)) {
       // already has an observable. Call observable() again to make sure we get the right proxy for implicitObserver
       return observable(result, this.implicitObserver);
+    }
+
+    if (this[$reactive].shallow) {
+      return result;
     }
     // if we are inside a reaction and observable.prop is an object wrap it in an observable too
     // this is needed to intercept property access on that object too (dynamic observable tree)
