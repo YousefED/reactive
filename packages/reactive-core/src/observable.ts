@@ -188,7 +188,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     // execute the set operation before running any reaction
     const hadKey = Object.hasOwnProperty.call(target, key);
     // save if the value changed because of this set operation
-    const oldValue = target[key];
+    const oldValue = Reflect.get(target, key, receiver);
     const result = Reflect.set(target, key, value, receiver);
 
     // queue a reaction if it's a new property or its value changed
@@ -236,7 +236,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
 
     // save if the object had the key
     const hadKey = Object.hasOwnProperty.call(target, key);
-    const oldValue = target[key];
+    const oldValue = Reflect.get(target, key);
     // execute the delete operation before running any reaction
     const result = Reflect.deleteProperty(target, key);
     // only queue reactions for delete operations which resulted in an actual change
