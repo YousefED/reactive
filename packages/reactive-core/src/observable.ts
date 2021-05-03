@@ -154,7 +154,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
       return observable(result, this.implicitObserver);
     }
 
-    if (this[$reactive].shallow) {
+    if (target[$reactive].shallow) {
       return result;
     }
     // if we are inside a reaction and observable.prop is an object wrap it in an observable too
