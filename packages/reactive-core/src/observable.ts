@@ -1,4 +1,5 @@
-import { reportChanged, Observer, reportObserved } from "./observer";
+import { reportObserved, reportChanged } from "./reporting";
+import { Observer } from "./observer";
 import { hasRunningReaction } from "./reaction";
 
 export const $reactive = Symbol("$reactive");
@@ -12,6 +13,7 @@ type Admin<T> = {
   proxy: InternalObservable<T>;
   proxiesWithImplicitObserver: Map<Observer, InternalObservable<T>>;
   raw: T;
+  shallow: boolean;
 };
 export type InternalObservable<T> = {
   [$reactive]: Admin<T>;
@@ -58,12 +60,12 @@ export type Operation<T> = {
   | { type: "delete"; oldValue: any }
 );
 
-function observable<T>(object: T, implicitObserver?: Observer) {
+function observable<T>(object: T, implicitObserver?: Observer, shallow = false) {
   if (isReactive(object, implicitObserver)) {
     return object;
   }
 
-  const observable = _observable(object);
+  const observable = _observable(object, shallow);
 
   if (!implicitObserver) {
     return observable;
@@ -82,7 +84,7 @@ function observable<T>(object: T, implicitObserver?: Observer) {
   return proxy;
 }
 export const reactive = observable;
-function _observable<T>(object: T) {
+function _observable<T>(object: T, shallow = false) {
   if (isReactive(object)) {
     return object;
   }
@@ -102,6 +104,7 @@ function _observable<T>(object: T) {
     proxy: {} as any, // temp
     raw: object,
     proxiesWithImplicitObserver: new Map(),
+    shallow,
   };
   Object.defineProperty(object, $reactive, {
     enumerable: false,
@@ -150,6 +153,10 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
       // already has an observable. Call observable() again to make sure we get the right proxy for implicitObserver
       return observable(result, this.implicitObserver);
     }
+
+    if (target[$reactive].shallow) {
+      return result;
+    }
     // if we are inside a reaction and observable.prop is an object wrap it in an observable too
     // this is needed to intercept property access on that object too (dynamic observable tree)
     // const observableResult = rawToProxy.get(result)
@@ -181,7 +188,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     // execute the set operation before running any reaction
     const hadKey = Object.hasOwnProperty.call(target, key);
     // save if the value changed because of this set operation
-    const oldValue = target[key];
+    const oldValue = Reflect.get(target, key, receiver);
     const result = Reflect.set(target, key, value, receiver);
 
     // queue a reaction if it's a new property or its value changed
@@ -229,7 +236,7 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
 
     // save if the object had the key
     const hadKey = Object.hasOwnProperty.call(target, key);
-    const oldValue = target[key];
+    const oldValue = Reflect.get(target, key);
     // execute the delete operation before running any reaction
     const result = Reflect.deleteProperty(target, key);
     // only queue reactions for delete operations which resulted in an actual change

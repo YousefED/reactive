@@ -1,4 +1,4 @@
-import { clearBatch } from "./observer";
+import { clearBatch } from "./reporting";
 
 export let isActionRunning = false;
 

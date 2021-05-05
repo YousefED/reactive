@@ -1,6 +1,6 @@
 {
   "name": "@reactivedata/react",
-  "version": "0.1.0",
+  "version": "0.1.12",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
   "module": "dist/reactive-react-bindings.module.js",
@@ -9,7 +9,7 @@
   "types": "types/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "@reactivedata/reactive": "^0.1.0"
+    "@reactivedata/reactive": "^0.1.12"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17"
@@ -29,7 +29,8 @@
   "scripts": {
     "test": "echo \"Run tests from root\" && exit 1",
     "clean": "rm -rf dist && rm -rf types",
-    "build": "npm run clean && microbundle build --raw --no-compress"
+    "build": "npm run clean && microbundle build --raw --no-compress && npm run fixtypedir",
+    "fixtypedir": "mv types typestmp && mv typestmp/reactive-react/src types && rm -rf typestmp"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +50,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "cf55e881a5e838ebf4eefab1e0a6cc4308583643"
+  "gitHead": "e009c26b8372a454b66d036f654312a8b9585a72"
 }
