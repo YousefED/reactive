@@ -176,8 +176,8 @@ describe("autorun", () => {
     expect(parentDummy).toEqual(undefined);
     obj.prop = 4;
     expect(dummy).toEqual(4);
-    // this doesn't work, should it?
-    // expect(parentDummy).toEqual(4)
+    expect(parentDummy).toEqual(4);
+
     parent.prop = 2;
     expect(dummy).toEqual(2);
     expect(parentDummy).toEqual(2);

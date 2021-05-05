@@ -61,12 +61,12 @@ export function reportObserved<T extends object>(source: ObserverConnectionSourc
 
   const reaction = runningReaction();
   if (reaction) {
-    reaction.observing.add({ source, observer: reaction });
     addConnection(source, reaction);
+    reaction.registerConnection(source);
   }
 
   if (implicitObserver) {
     addConnection(source, implicitObserver);
-    implicitObserver.observing.add({ source, observer: implicitObserver });
+    implicitObserver.registerConnection(source);
   }
 }
