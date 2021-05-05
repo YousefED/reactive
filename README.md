@@ -53,7 +53,7 @@ const data = reactive({
 });
 
 autorun(() => {
-  console.log(`There are ${data.length} players, the first player name is ${data.players[0].name}`);
+  console.log(`There are ${data.players.length} players, the first player name is ${data.players[0].name}`);
 });
 
 data.players.push({ name: "Paul" });
