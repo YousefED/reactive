@@ -2,6 +2,7 @@ import { reportObserved, reportChanged } from "./reporting";
 import { Observer } from "./observer";
 import { hasRunningReaction } from "./reaction";
 
+export const $skipreactive = Symbol("$skipreactive");
 export const $reactive = Symbol("$reactive");
 export const $reactiveproxy = Symbol("$reactiveproxy");
 
@@ -25,6 +26,11 @@ export function isReactive<T>(object: T, implicitObserver?: Observer): object is
     (object as any)[$reactiveproxy] &&
     (object as any)[$reactiveproxy].implicitObserver === implicitObserver
   );
+}
+
+export function markRaw<T>(object: T) {
+  object[$skipreactive] = true;
+  return object;
 }
 
 function isInternalObservable<T>(object: T): object is InternalObservable<T> {
@@ -61,6 +67,10 @@ export type Operation<T> = {
 );
 
 function observable<T>(object: T, implicitObserver?: Observer, shallow = false) {
+  if (object[$skipreactive]) {
+    return object;
+  }
+
   if (isReactive(object, implicitObserver)) {
     return object;
   }
