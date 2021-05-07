@@ -27,7 +27,9 @@ export default function App() {
 
 <sup>View on [CodeSandbox](https://codesandbox.io/s/reactivedatareact-basic-example-ihgu9?file=/src/App.tsx)</sup>
 
-Pass in any object to `useReactive` to create a Reactive state. Any properties (even nested) can be mutated, and your component will update automatically.
+Pass in any object to `useReactive` to create a Reactive state. Any properties (even nested / deep properties) can be mutated, and your component will update automatically if it's using any of the changed data.
+
+_reactive knows that your component uses state.clickCount, and when you click the button, it detects the change to clickCount and figures out which components need to be re-rendered with the new value._
 
 ### Advanced example
 
@@ -37,7 +39,7 @@ const state = useReactive({
 });
 ```
 
-Adding players (`state.players.push`) or modifying a name (`state.players[0].name = "John"`) will all work out-of-the-box.
+Adding players (`state.players.push`) or modifying a name (`state.players[0].name = "John"`) will trigger changes and work out-of-the-box.
 
 ## Without React
 
