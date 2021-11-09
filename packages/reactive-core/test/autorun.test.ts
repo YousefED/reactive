@@ -1,4 +1,4 @@
-import { runInAction } from "@reactivedata/reactive";
+import { reaction, runInAction } from "@reactivedata/reactive";
 import { autorun, autorunAsync } from "../src/autorun";
 import { reactive } from "../src/observable";
 import { Observer } from "../src/observer";
@@ -592,15 +592,41 @@ describe("autorun", () => {
 describe("options", () => {
   describe("fireImmediately", () => {
     it("should not run the passed function, if set to true", () => {
-      const fnSpy = jest.fn(() => {});
-      autorun(fnSpy, { fireImmediately: false });
-      expect(fnSpy).toBeCalledTimes(0);
+      const nums = reactive({ num1: 0, num2: 1, num3: 2 });
+
+      const fnSpyTrigger = jest.fn(() => {
+        let x = nums.num1;
+      });
+      const fnSpyEffect = jest.fn(() => {
+        let x = nums.num1;
+      });
+      reaction(fnSpyTrigger, fnSpyEffect, { fireImmediately: false });
+      expect(fnSpyTrigger).toBeCalledTimes(1);
+      expect(fnSpyEffect).toBeCalledTimes(0);
+
+      nums.num1++;
+
+      expect(fnSpyTrigger).toBeCalledTimes(2);
+      expect(fnSpyEffect).toBeCalledTimes(1);
     });
 
     it("should default to true", () => {
-      const fnSpy = jest.fn(() => {});
-      autorun(fnSpy);
-      expect(fnSpy).toHaveBeenCalledTimes(1);
+      const nums = reactive({ num1: 0, num2: 1, num3: 2 });
+
+      const fnSpyTrigger = jest.fn(() => {
+        let x = nums.num1;
+      });
+      const fnSpyEffect = jest.fn(() => {
+        let x = nums.num1;
+      });
+      reaction(fnSpyTrigger, fnSpyEffect);
+      expect(fnSpyTrigger).toBeCalledTimes(1);
+      expect(fnSpyEffect).toBeCalledTimes(1);
+
+      nums.num1++;
+
+      expect(fnSpyTrigger).toBeCalledTimes(2);
+      expect(fnSpyEffect).toBeCalledTimes(2);
     });
   });
 
