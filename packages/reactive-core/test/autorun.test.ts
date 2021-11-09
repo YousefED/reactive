@@ -1,3 +1,4 @@
+import { runInAction } from "@reactivedata/reactive";
 import { autorun, autorunAsync } from "../src/autorun";
 import { reactive } from "../src/observable";
 import { Observer } from "../src/observer";
@@ -707,5 +708,24 @@ describe("options", () => {
       expect(fnSpy1).toBeCalledTimes(1);
       expect(fnSpy2).toBeCalledTimes(1);
     });
+  });
+
+  it("should respect runInAction", () => {
+    let getDummy;
+    const obj = reactive({ prop: "value" });
+
+    const getSpy = jest.fn(() => (getDummy = obj.prop));
+    autorun(() => {
+      getSpy();
+    });
+
+    expect(getSpy).toHaveBeenCalledTimes(1);
+    expect(getDummy).toEqual("value");
+    runInAction(() => {
+      obj.prop = "value2";
+      obj.prop = "value3";
+    });
+    expect(getSpy).toHaveBeenCalledTimes(2);
+    expect(getDummy).toEqual("value3");
   });
 });
