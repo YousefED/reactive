@@ -1,6 +1,7 @@
 import { reportObserved, reportChanged } from "./reporting";
 import { Observer } from "./observer";
 import { hasRunningReaction } from "./reaction";
+import { runInAction } from ".";
 
 export const $skipreactive = Symbol("$skipreactive");
 export const $reactive = Symbol("$reactive");
@@ -122,7 +123,7 @@ function _observable<T>(object: T, shallow = false) {
     configurable: true,
     value,
   });
-  const proxy = new Proxy<InternalObservable<T>>((object as any) as InternalObservable<T>, objectProxyTraps);
+  const proxy = new Proxy<InternalObservable<T>>(object as any as InternalObservable<T>, objectProxyTraps);
   value.proxy = proxy;
   return proxy;
 }
@@ -190,25 +191,27 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
   },
   // Write:
   set(target: InternalObservable<any>, key: PropertyKey, value: any, receiver: any): boolean {
-    if (typeof key === "symbol") {
-      return Reflect.set(target, key, value, receiver);
-    }
+    // runInAction because Reflect.set could trigger a different observer
+    return runInAction(() => {
+      if (typeof key === "symbol") {
+        return Reflect.set(target, key, value, receiver);
+      }
 
-    // save if the object had a descriptor for this key
-    // execute the set operation before running any reaction
-    const hadKey = Object.hasOwnProperty.call(target, key);
-    // save if the value changed because of this set operation
-    const oldValue = Reflect.get(target, key, receiver);
-    const result = Reflect.set(target, key, value, receiver);
+      // save if the object had a descriptor for this key
+      // execute the set operation before running any reaction
+      const hadKey = Object.hasOwnProperty.call(target, key);
+      // save if the value changed because of this set operation
+      const oldValue = Reflect.get(target, key, receiver);
+      const result = Reflect.set(target, key, value, receiver);
 
-    // queue a reaction if it's a new property or its value changed
-    if (!hadKey) {
-      reportChanged({ observable: target, key, value, type: "add" });
-    } else if (value !== oldValue) {
-      if (key === "length" && Array.isArray(target)) {
-        if (oldValue < value) {
-          // not necessary as values will still be undefined:
-          /*for (let i = oldValue; i <= value; i++) {
+      // queue a reaction if it's a new property or its value changed
+      if (!hadKey) {
+        reportChanged({ observable: target, key, value, type: "add" });
+      } else if (value !== oldValue) {
+        if (key === "length" && Array.isArray(target)) {
+          if (oldValue < value) {
+            // not necessary as values will still be undefined:
+            /*for (let i = oldValue; i <= value; i++) {
             executeObservers({
               observable: target as any,
               key: "" + (i - 1),
@@ -216,44 +219,48 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
               type: "add",
             });
           }*/
-        } else {
-          for (let i = value + 1; i <= oldValue; i++) {
-            // TODO: all of these will trigger the "iterate" listeners. That should only be triggered once
-            reportChanged({
-              observable: target as any,
-              key: "" + (i - 1),
-              oldValue: undefined, // Note: maybe we've just lost oldValue
-              type: "delete",
-            });
+          } else {
+            for (let i = value + 1; i <= oldValue; i++) {
+              // TODO: all of these will trigger the "iterate" listeners. That should only be triggered once
+              reportChanged({
+                observable: target as any,
+                key: "" + (i - 1),
+                oldValue: undefined, // Note: maybe we've just lost oldValue
+                type: "delete",
+              });
+            }
           }
+        } else {
+          reportChanged({
+            observable: target,
+            key,
+            value,
+            oldValue,
+            type: "update",
+          });
         }
-      } else {
-        reportChanged({
-          observable: target,
-          key,
-          value,
-          oldValue,
-          type: "update",
-        });
       }
-    }
-    return result;
+      return result;
+    });
   },
   deleteProperty(target: InternalObservable<any>, key: PropertyKey): boolean {
-    if (typeof key === "symbol") {
-      return Reflect.deleteProperty(target, key);
-    }
+    // runInAction because Reflect.deleteProperty could trigger a different observer
+    return runInAction(() => {
+      if (typeof key === "symbol") {
+        return Reflect.deleteProperty(target, key);
+      }
 
-    // save if the object had the key
-    const hadKey = Object.hasOwnProperty.call(target, key);
-    const oldValue = Reflect.get(target, key);
-    // execute the delete operation before running any reaction
-    const result = Reflect.deleteProperty(target, key);
-    // only queue reactions for delete operations which resulted in an actual change
-    if (hadKey) {
-      reportChanged({ observable: target, key, oldValue, type: "delete" });
-    }
-    return result;
+      // save if the object had the key
+      const hadKey = Object.hasOwnProperty.call(target, key);
+      const oldValue = Reflect.get(target, key);
+      // execute the delete operation before running any reaction
+      const result = Reflect.deleteProperty(target, key);
+      // only queue reactions for delete operations which resulted in an actual change
+      if (hadKey) {
+        reportChanged({ observable: target, key, oldValue, type: "delete" });
+      }
+      return result;
+    });
   },
   preventExtensions(target) {
     throw new Error("Dynamic observable objects cannot be frozen");

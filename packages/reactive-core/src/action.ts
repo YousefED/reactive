@@ -1,13 +1,20 @@
 import { clearBatch } from "./reporting";
 
-export let isActionRunning = false;
+let runningActionCount = 0;
 
-export function runInAction(func: () => void) {
-  isActionRunning = true;
+export function isActionRunning() {
+  return runningActionCount > 0;
+}
+
+export function runInAction<T>(func: () => T) {
+  runningActionCount++;
   try {
-    func();
+    return func();
   } finally {
-    clearBatch();
-    isActionRunning = false;
+    runningActionCount--;
+
+    if (runningActionCount === 0) {
+      clearBatch();
+    }
   }
 }

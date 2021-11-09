@@ -7,8 +7,9 @@ import { isTrackingDisabled } from "./untracked";
 let batch: Operation<any>[] = [];
 
 export function clearBatch<T>() {
-  reportChangedArray(batch);
+  const copy = [...batch];
   batch = [];
+  reportChangedArray(copy);
 }
 
 function reportChangedArray<T>(operations: Array<Operation<T>>) {
@@ -34,7 +35,7 @@ function reportChangedArray<T>(operations: Array<Operation<T>>) {
 }
 
 export function reportChanged<T>(operation: Operation<T>) {
-  if (isActionRunning) {
+  if (isActionRunning()) {
     batch.push(operation);
     return;
   }
