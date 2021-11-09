@@ -171,7 +171,12 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     // if we are inside a reaction and observable.prop is an object wrap it in an observable too
     // this is needed to intercept property access on that object too (dynamic observable tree)
     // const observableResult = rawToProxy.get(result)
-    if (typeof result === "object" && result !== null && !isReactive(result, this.implicitObserver)) {
+    if (
+      typeof result === "object" &&
+      result !== null &&
+      !isReactive(result, this.implicitObserver) &&
+      !Object.isFrozen(result)
+    ) {
       // do not violate the none-configurable none-writable prop get handler invariant
       // fall back to none reactive mode in this case, instead of letting the Proxy throw a TypeError
       const descriptor = Reflect.getOwnPropertyDescriptor(target, key);
