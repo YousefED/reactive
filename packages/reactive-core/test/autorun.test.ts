@@ -214,6 +214,21 @@ describe("autorun", () => {
     expect(dummy).toEqual("World!");
   });
 
+  it("should track changes of a property of an array element", () => {
+    let dummy;
+    const list = reactive([
+      { id: 0, val: "a" },
+      { id: 1, val: "b" },
+    ]);
+    autorun(() => {
+      dummy = list.find((item) => item.id === 1).val;
+    });
+    expect(dummy).toEqual("b");
+
+    list[1].val = "c";
+    expect(dummy).toEqual("c");
+  });
+
   it("should autorun explicit array length changes", () => {
     let dummy;
     const list = reactive(["Hello", "World"]);

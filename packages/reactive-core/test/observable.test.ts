@@ -17,6 +17,19 @@ describe("reactive", () => {
     expect(isReactive(obj)).toEqual(false);
   });
 
+  it("should track changes of a property of an array element", () => {
+    const obj = [
+      { id: 0, val: "a" },
+      { id: 1, val: "b" },
+    ];
+    const obs = reactive(obj);
+    const deriv = obs.find((item) => item.id === 1).val;
+    expect(deriv).toEqual("b");
+
+    obj[1].val = "c";
+    expect(deriv).toEqual("c");
+  });
+
   it("should return the argument if it is already an reactive", () => {
     const obs1 = reactive({});
     const obs2 = reactive(obs1);
