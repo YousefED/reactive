@@ -78,4 +78,22 @@ describe("isReactive", () => {
   it("should return false if a primitive is passed as argument", () => {
     expect(isReactive(12)).toEqual(false);
   });
+
+  it("array elements should be reactive", () => {
+    const reactiveArray = reactive([{ a: 2 }]);
+
+    autorun(() => {
+      expect(isReactive(reactiveArray[0])).toEqual(true);
+    });
+  });
+
+  it("mapped array elements should be reactive", () => {
+    const reactiveArray = reactive([{ a: 2 }]);
+
+    autorun(() => {
+      reactiveArray.map((el) => {
+        expect(isReactive(el)).toEqual(true);
+      });
+    });
+  });
 });
