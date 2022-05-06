@@ -5,9 +5,12 @@ export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
 
   const observer = useRef<Observer>();
+  const mounted = useRef(false);
   if (!observer.current) {
     observer.current = new Observer(() => {
-      forceUpdate();
+      if (mounted.current) {
+        forceUpdate();
+      }
     });
   }
 
@@ -17,7 +20,9 @@ export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
   }, deps || []);
 
   useEffect(() => {
+    mounted.current = true;
     return () => {
+      mounted.current = false;
       observer.current.removeObservers();
     };
   }, []);
@@ -28,9 +33,12 @@ export function useReactives<T extends any[]>(stateObjects: T, deps?: React.Depe
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
 
   const observer = useRef<Observer>();
+  const mounted = useRef(false);
   if (!observer.current) {
     observer.current = new Observer(() => {
-      forceUpdate();
+      if (mounted.current) {
+        forceUpdate();
+      }
     });
   }
 
@@ -41,7 +49,9 @@ export function useReactives<T extends any[]>(stateObjects: T, deps?: React.Depe
   }, []);
 
   return useMemo(() => {
+    mounted.current = true;
     return stateObjects.map((stateObject) => {
+      mounted.current = false;
       return reactive(stateObject, observer.current);
     });
   }, deps || []) as T;
