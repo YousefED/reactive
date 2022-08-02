@@ -43,15 +43,15 @@ export function useReactives<T extends any[]>(stateObjects: T, deps?: React.Depe
   }
 
   useEffect(() => {
+    mounted.current = true;
     return () => {
+      mounted.current = false;
       observer.current.removeObservers();
     };
   }, []);
 
   return useMemo(() => {
-    mounted.current = true;
     return stateObjects.map((stateObject) => {
-      mounted.current = false;
       return reactive(stateObject, observer.current);
     });
   }, deps || []) as T;
