@@ -1,6 +1,6 @@
 {
   "name": "@reactivedata/react",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "private": false,
   "main": "dist/reactive-react-bindings.js",
   "module": "dist/reactive-react-bindings.module.js",
@@ -9,7 +9,7 @@
   "types": "types/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "@reactivedata/reactive": "^0.1.16"
+    "@reactivedata/reactive": "^0.2.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17 || ^18"
