@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useReducer, useRef } from "react";
 import { Observer, reactive } from "@reactivedata/reactive";
+import { useEffect, useMemo, useReducer, useRef } from "react";
 
 export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
@@ -21,9 +21,14 @@ export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
 
   useEffect(() => {
     mounted.current = true;
+    if (!observer.current) {
+      // our component is reused (strict mode on react 18 also triggers this)
+      forceUpdate();
+    }
     return () => {
       mounted.current = false;
       observer.current.removeObservers();
+      observer.current = null;
     };
   }, []);
   return ret;
@@ -44,9 +49,14 @@ export function useReactives<T extends any[]>(stateObjects: T, deps?: React.Depe
 
   useEffect(() => {
     mounted.current = true;
+    if (!observer.current) {
+      // our component is reused (strict mode on react 18 also triggers this)
+      forceUpdate();
+    }
     return () => {
       mounted.current = false;
       observer.current.removeObservers();
+      observer.current = null;
     };
   }, []);
 
