@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import * as React from "react";
 import { useRef } from "react";
 // @ts-ignore
@@ -34,7 +34,9 @@ it("renders learn react link", () => {
   expect(renderCountElement).toHaveTextContent("1");
 
   const buttonElement = screen.getByTestId("increase");
-  buttonElement.click();
+  act(() => {
+    buttonElement.click();
+  });
 
   expect(innerElement).toHaveTextContent("6");
   expect(renderCountElement).toHaveTextContent("2");
@@ -85,7 +87,9 @@ it("renders smart nested react link", () => {
   expect(smartRenderCountElement).toHaveTextContent("1");
 
   const buttonElement = screen.getByTestId("increase");
-  buttonElement.click();
+  act(() => {
+    buttonElement.click();
+  });
   expect(renderCountElement).toHaveTextContent("1");
   expect(smartRenderCountElement).toHaveTextContent("2");
   expect(smartInnerElement).toHaveTextContent("6");
@@ -103,7 +107,9 @@ it("renders dumb nested react link", () => {
   expect(smartRenderCountElement).toHaveTextContent("1");
 
   const buttonElement = screen.getByTestId("increase");
-  buttonElement.click();
+  act(() => {
+    buttonElement.click();
+  });
   expect(renderCountElement).toHaveTextContent("2");
   expect(smartRenderCountElement).toHaveTextContent("2");
   expect(smartInnerElement).toHaveTextContent("6");
