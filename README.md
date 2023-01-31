@@ -65,8 +65,8 @@ data.players[0].name = "John";
 Will print:
 
 ```
-There are 1 players, the first player name is Paul
-There are 2 players, the first player name is Paul
+There are 1 players, the first player name is Peter
+There are 2 players, the first player name is Peter
 There are 2 players, the first player name is John
 ```
 

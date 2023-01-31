@@ -21,7 +21,6 @@ export function autorunAsync<T>(
     func(reactiveObject); // TODO: error handling
   }, options);
   reactiveObject = reactive(reactiveObject, reaction);
-  (reactiveObject as any).bla = 4;
   if (options.fireImmediately) {
     reaction.trigger();
   }
