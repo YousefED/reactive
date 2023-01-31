@@ -1,7 +1,7 @@
-import { reportObserved, reportChanged } from "./reporting";
+import { runInAction } from ".";
 import { Observer } from "./observer";
 import { hasRunningReaction } from "./reaction";
-import { runInAction } from ".";
+import { reportChanged, reportObserved } from "./reporting";
 
 export const $skipreactive = Symbol("$skipreactive");
 export const $reactive = Symbol("$reactive");
@@ -150,6 +150,11 @@ const objectProxyTraps: ProxyHandler<InternalObservable<any>> = {
     const result = Reflect.get(target, key, receiver);
 
     if (typeof key === "symbol") {
+      if (key.toString() === "Symbol($reactiveproxy)") {
+        console.error(
+          "warning, Symbol($reactiveproxy) passed, but does not match $reactiveproxy. Multiple Reactive libraries loaded?"
+        );
+      }
       return result;
     }
 
