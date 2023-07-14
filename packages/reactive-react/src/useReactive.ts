@@ -15,7 +15,7 @@ export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
   }
 
   const ret = useMemo(() => {
-    observer.current.removeObservers();
+    observer.current?.removeObservers();
     return reactive(stateObject, observer.current);
   }, deps || []);
 
@@ -27,7 +27,7 @@ export function useReactive<T>(stateObject: T, deps?: React.DependencyList): T {
     }
     return () => {
       mounted.current = false;
-      observer.current.removeObservers();
+      observer.current?.removeObservers();
       observer.current = null;
     };
   }, []);
@@ -55,7 +55,7 @@ export function useReactives<T extends any[]>(stateObjects: T, deps?: React.Depe
     }
     return () => {
       mounted.current = false;
-      observer.current.removeObservers();
+      observer.current?.removeObservers();
       observer.current = null;
     };
   }, []);
