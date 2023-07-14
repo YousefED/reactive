@@ -1,6 +1,6 @@
 {
   "name": "@reactivedata/reactive",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": false,
   "main": "dist/reactive.js",
   "module": "dist/reactive.module.js",
